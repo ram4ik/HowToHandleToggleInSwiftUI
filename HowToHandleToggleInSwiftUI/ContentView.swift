@@ -8,9 +8,22 @@
 
 import SwiftUI
 
+class TestStore: ObservableObject {
+    var text = ""
+    @Published var isOn = true {
+        willSet {
+            self.text = newValue ? "Turn on" : "Turn off"
+        }
+    }
+}
+
 struct ContentView: View {
+    @ObservedObject var store = TestStore()
     var body: some View {
-        Text("Hello World")
+        VStack {
+            Text(store.text)
+            Toggle(isOn: $store.isOn) { Text("On:")}.fixedSize()
+        }
     }
 }
 
